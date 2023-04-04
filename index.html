@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="shortcut icon" href="logo.png" type="image/x-icon">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NVTC - Complaint Site</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+</head>
+
+<body>
+    <header>
+        <div class="lang">
+            <a class="arabic" onclick="toggleLanguage()">Arabic</a> <img class="bh" src="bh.png" alt="">
+        </div>
+        <a class="admin" href="dashboard.php">ADMIN LOGIN</a></a>
+        <nav>
+            <ul class="nav__links">
+                <li><a href="#">Services</a></li>
+                <li><a href="#">Projects</a></li>
+                <li><a href="#">About</a></li>
+            </ul>
+        </nav>
+        <a id="cta" class="cta" href="#">Contact</a>
+    </header>
+    <div>
+        <h1>Submit a Complaint Ticket</h1>
+        <h2>Complaint Center</h2>
+    </div>
+    <div>
+        <h1>
+        </h1>
+    </div>
+    <div>
+        <img class="nvtc-logo" src="main.png" alt="">
+    </div>
+    <div>
+        <div class="wrapper">
+            <header>Create Ticket</header>
+            <form action="submit_form.php" method="POST">
+                <div class="dbl-field">
+                    <div class="field">
+                        <input type="text" name="name" placeholder="Enter your name" required>
+                        <i class='fas fa-user'></i>
+                    </div>
+                    <div class="field">
+                        <input type="email" name="email" placeholder="Enter your email" required>
+                        <i class='fas fa-envelope'></i>
+                    </div>
+                </div>
+                <div class="dbl-field">
+                    <div class="field">
+                        <input type="text" name="phone" placeholder="Enter your phone" required>
+                        <i class='fas fa-phone-alt'></i>
+                    </div>
+                    <div class="field">
+                        <input type="text" name="nvnumber" placeholder="Enter your nvnumber" required>
+                        <i class="fas fa-lock"></i>
+                    </div>
+                </div>
+                <div class="message">
+                    <textarea placeholder="Write your message" name="message" required></textarea>
+                    <i class="fas fa-comment"></i>
+                </div>
+                <div class="button-area">
+                    <button type="submit">Send Message</button>
+                    <span></span>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div>
+        <footer class="footer">©️ NVTC Complaint 2023 All rights reserved - Made by Yousif</footer>
+    </div>
+    </div>
+    <script>
+        function submitForm(event) {
+            event.preventDefault();
+
+            // retrieve form data
+            const name = document.getElementsByName('name')[0].value;
+            const email = document.getElementsByName('email')[0].value;
+            const phone = document.getElementsByName('phone')[0].value;
+            const nvnumber = document.getElementsByName('nvnumber')[0].value;
+            const message = document.getElementsByName('messages')[0].value;
+
+            // create data object
+            const data = {
+                name,
+                email,
+                phone,
+                nvnumber,
+                message
+            };
+
+            // retrieve existing form data or create empty array
+            const formData = JSON.parse(localStorage.getItem('form-data')) || [];
+
+            // add new data object to array
+            formData.push(data);
+
+            // store form data in local storage
+            localStorage.setItem('form-data', JSON.stringify(formData));
+
+            // submit form to server
+            event.target.submit();
+        }
+    </script>
+    <script>
+        const form = document.querySelector('wrapper');
+        form.addEventListener('submit', (event) => {
+            window.location.href = "done.html";
+            event.preventDefault(); // prevent form submission
+            const formData = new FormData(form); // get form data
+            const jsonObject = {};
+            for (const [key, value] of formData.entries()) {
+                jsonObject[key] = value;
+            }
+            const jsonData = JSON.stringify(jsonObject); // convert to JSON string
+            const xhr = new XMLHttpRequest();
+            xhr.open('POST', 'data.json', true);
+            xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8');
+            xhr.onload = function () {
+                console.log(xhr.responseText);
+            };
+            xhr.send(jsonData);
+        });
+    </script>
+    <script>
+        let isArabic = false;
+        const originalText = {
+            h1: "Submit a Complaint Ticket",
+            h2: "Complaint Center",
+            contact: "Contact",
+            services: "Services",
+            projects: "Projects",
+            about: "About",
+            ar: "Arabic",
+        };
+        const translatedText = {
+            h1: "مرحبا بك - تقديم تيكت شكوى",
+            h2: "مركز الشكاوي",
+            contact: "التواصل معنا",
+            services: "الخدمات",
+            projects: "المشاريع",
+            about: "عن المركز",
+            en: "English",
+        };
+        function toggleLanguage() {
+            const langElement = document.querySelector('.arabic');
+            if (isArabic) {
+                // Set the document's language back to the original
+                document.documentElement.lang = "en";
+                const h1Element = document.querySelector('h1');
+                const h2Element = document.querySelector('h2');
+                const aElements = document.querySelectorAll('a');
+                const navLinks = document.querySelectorAll('.nav__links li a');
+                const contact = document.querySelector('.cta');
+                h1Element.textContent = originalText.h1;
+                h2Element.textContent = originalText.h2;
+                contact.textContent = originalText.contact;
+                navLinks[0].textContent = originalText.services;
+                navLinks[1].textContent = originalText.projects;
+                navLinks[2].textContent = originalText.about;
+                if (langElement.textContent !== originalText.ar) {
+                    langElement.textContent = originalText.ar;
+                }
+                isArabic = false;
+            } else {
+                document.documentElement.lang = "ar";
+                const h1Element = document.querySelector('h1');
+                const h2Element = document.querySelector('h2');
+                const aElements = document.querySelectorAll('a');
+                const navLinks = document.querySelectorAll('.nav__links li a');
+                const contact = document.querySelector('.cta');
+                h1Element.textContent = translatedText.h1;
+                h2Element.textContent = translatedText.h2;
+                contact.textContent = translatedText.contact;
+                navLinks[0].textContent = translatedText.services;
+                navLinks[1].textContent = translatedText.projects;
+                navLinks[2].textContent = translatedText.about;
+                if (langElement.textContent !== translatedText.en) {
+                    langElement.textContent = translatedText.en;
+                }
+                isArabic = true;
+            }
+        }
+
+    </script>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

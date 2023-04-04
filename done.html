@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<link rel="shortcut icon" href="logo.png" type="image/x-icon">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<link rel="stylesheet" href="done.css">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
+	<title>NVTC - Complaint Site Done Page</title>
+</head>
+
+<body>
+	<h1>Complaint ticket recived</h1>
+	<script>
+		window.onload = function () {
+			// Generate random ticket number
+			var ticket_number = Math.floor(Math.random() * 900000) + 100000;
+
+			// Display ticket number to user
+			var ticket_message = document.createElement("p");
+			ticket_message.innerHTML = '<i class="fa-solid fa-ticket"></i> Thank you for your complaint. Your ticket number is <strong>' + ticket_number + '</strong>.';
+			ticket_message.className = "ticket-number";
+			document.body.appendChild(ticket_message);
+		};
+	</script>
+	<a href="mailto:nv22194@nvtc.edu.bh" class="contact"><i class="fa-solid fa-envelope"></i> For further information, please contact us</a>
+</body>
+</html>
